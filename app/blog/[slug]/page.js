@@ -1,4 +1,3 @@
-import { notFound } from 'next/navigation'
 import { getPost as getPostNotCached, getPosts } from '@/lib/posts'
 import { cache } from 'react'
 import Link from 'next/link'
@@ -18,17 +17,13 @@ export async function generateMetadata({ params }) {
   try {
     const { frontmatter } = await getPost(params.slug)
     return frontmatter
-  } catch (e) { }
+  } catch (e) { 
+    // handel error
+  }
 }
 
 export default async function BlogPage({ params }) {
-  let post
-
-  try {
-    post = await getPost(params.slug)
-  } catch (e) {
-    notFound()
-  }
+  const post = await getPost(params.slug)
 
   return (
     <article className="prose dark:prose-invert">
